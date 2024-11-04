@@ -119,6 +119,29 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+        //Btn delete
+        btnDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(objCurrentCat!= null){
+                    boolean res = catDAO.deleteRow(objCurrentCat);
+                    if(res){
+                        listCat.clear();
+                        listCat.addAll( catDAO.getList());
+                        adapter.notifyDataSetChanged();
+                        objCurrentCat = null;// xóa dữ liệu tạm
+                        edCatName.setText("");
+                    }else{
+                        Toast.makeText(MainActivity.this, "Lỗi xóa", Toast.LENGTH_SHORT).show();
+                    }
+
+                }else{
+                    Toast.makeText(MainActivity.this,
+                            "Bấm giữ dòng để chọn bản ghi cần xóa", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
 
 
 

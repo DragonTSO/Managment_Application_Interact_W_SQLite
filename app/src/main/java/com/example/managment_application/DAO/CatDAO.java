@@ -55,4 +55,8 @@ public class CatDAO {
         values.put("name", objCurrentCat.getName());
         return db.update("tb_cat", values, "id=?", new String[]{String.valueOf(objCurrentCat.getId())}) > 0;
     }
+    // xóa cat
+    public boolean deleteRow(CatDTO objCurrentCat) {
+        return db.delete("tb_cat", "id=?", new String[]{String.valueOf(objCurrentCat.getId())}) > 0;
+    }
 }
