@@ -3,12 +3,12 @@ package com.example.managment_application.DTO;
 public class CatDTO {
     int id;
     String name;
-    public CatDTO(int id, String name) {
+    public CatDTO() {
         this.id = id;
         this.name = name;
     }
     public String toString (){
-        return "ID Cat: " + id + "Name Cat: " + name;
+        return "ID Cat: " + id + " Name Cat: " + name;
     }
 
     public int getId() {
