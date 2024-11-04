@@ -23,10 +23,10 @@ public class CatDAO {
         values.put("name", objname);
         return (int) db.insert("tb_cat", null, values);
     }
-    public int update(int objid, String objname) {
+    public boolean update(int objid, String objname) {
         ContentValues values = new ContentValues();
         values.put("name", objname);
-        return db.update("tb_cat", values, "id=?", new String[]{String.valueOf(objid)});
+        return db.update("tb_cat", values, "id=?", new String[]{String.valueOf(objid)}) > 0;
     }
     public ArrayList<CatDTO> getList(){
         ArrayList<CatDTO> list = new ArrayList<>();
@@ -50,4 +50,9 @@ public class CatDAO {
         return list;
     }
 
+    public boolean update(CatDTO objCurrentCat) {
+        ContentValues values = new ContentValues();
+        values.put("name", objCurrentCat.getName());
+        return db.update("tb_cat", values, "id=?", new String[]{String.valueOf(objCurrentCat.getId())}) > 0;
+    }
 }

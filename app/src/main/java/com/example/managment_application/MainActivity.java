@@ -1,7 +1,9 @@
 package com.example.managment_application;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -63,10 +65,6 @@ public class MainActivity extends AppCompatActivity {
                             "Tên cân nhập ít nhất 3 ký tu", Toast.LENGTH_SHORT).show();
                     return; // thoat khoi hàm
                 }
-
-
-
-
                 CatDTO objCat = new CatDTO();
                 objCat.setName( catName );
                 //2. Ghi vao CSDL
@@ -82,6 +80,47 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+        // Update
+        lvCat.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+                // ghi log để xem 2 tham số i, l là gì
+                Log.d("UpdateObj", "onItemLongClick: i = " + i + ", l = " + l );
+                // xem log--> i là thứ tự phần tử trong arrayList, l là id trong bảng
+                objCurrentCat = listCat.get(i);
+                edCatName.setText( objCurrentCat.getName() ); // hiển thị lên màn hình
+                return  true;
+
+
+            }
+        });
+        btnUpdate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //1. Lấy dữ lệu nhập
+                String catName = edCatName.getText().toString();
+                //2. Validate ....
+
+
+                //3. Gán dữ liệu vao đối tượng
+                objCurrentCat.setName(catName);
+                //4. Ghi vào CSDL
+                boolean res = catDAO.update(objCurrentCat);
+                if(res){ // sửa thành cong
+                    listCat.clear();
+                    listCat.addAll( catDAO.getList());
+                    adapter.notifyDataSetChanged();
+                    objCurrentCat = null;// xóa dữ liệu tạm
+                    edCatName.setText(""); // xóa trống ô text
+                }else{
+                    Toast.makeText(MainActivity.this,
+                            "Lỗi không sửa được, có thể trùng dữ liệu...", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        });
+
+
 
     }
 
